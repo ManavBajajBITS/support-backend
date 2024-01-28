@@ -97,22 +97,10 @@ router.get('/', async (req, res) => {
       query = query.sort({ dateCreated: req.query.sortDirection === 'desc' ? -1 : 1 });
     }
 
-    // Pagination
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
-    const startIndex = (page - 1) * limit;
-    const endIndex = page * limit;
-
     const total = await SupportTicket.countDocuments();
-    const tickets = await query.limit(limit).skip(startIndex).exec();
+    const tickets = await query.exec();
 
-    const pagination = {
-      totalPages: Math.ceil(total / limit),
-      currentPage: page,
-      totalItems: total,
-    };
-
-    res.json({ tickets, pagination });
+    res.json({ tickets });
   } catch (error) {
     console.error('Error fetching support tickets:', error);
     res.status(500).json({ message: 'Internal server error' });
