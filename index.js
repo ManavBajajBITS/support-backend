@@ -1,8 +1,8 @@
 // index.js for support-backend
 const express = require('express');
-const connectDB = require('./db');
-const supportAgentsRouter = require('./api/supportAgents');
-const supportTicketsRouter = require('./api/supportTickets');
+const connectDB = require('./src/db');
+const supportAgentsRouter = require('./src/api/supportAgents');
+const supportTicketsRouter = require('./src/api/supportTickets');
 
 const app = express();
 
@@ -14,9 +14,9 @@ app.use(express.json());
 
 // Error handling middleware
 app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).send('Something went wrong!');
-  });
+  console.error(err.stack);
+  res.status(500).send('Something went wrong!');
+});
 
 // Use API routers
 app.use('/api/support-agents', supportAgentsRouter);
