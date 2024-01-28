@@ -1,5 +1,6 @@
 // index.js for support-backend
 const express = require('express');
+const cors = require('cors');
 const connectDB = require('./src/db');
 const supportAgentsRouter = require('./src/api/supportAgents');
 const supportTicketsRouter = require('./src/api/supportTickets');
@@ -11,6 +12,8 @@ connectDB();
 
 // Middleware to parse JSON bodies
 app.use(express.json());
+
+app.use(cors());
 
 // Error handling middleware
 app.use((err, req, res, next) => {

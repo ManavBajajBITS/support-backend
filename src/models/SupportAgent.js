@@ -6,7 +6,7 @@ const supportAgentSchema = new mongoose.Schema({
   email: String,
   phone: String,
   description: String,
-  active: Boolean,
+  active: { type: Boolean, default: true },
   dateCreated: { type: Date, default: Date.now },
 });
 

@@ -80,8 +80,8 @@ router.get('/', async (req, res) => {
     if (req.query.status) {
       query = query.where('status').equals(req.query.status);
     }
-    if (req.query.assignedTo) {
-      query = query.where('assignedTo').equals(req.query.assignedTo);
+    if (req.query.assignedAgent) {
+      query = query.where('assignedAgent').equals(req.query.assignedAgent);
     }
     if (req.query.severity) {
       query = query.where('severity').equals(req.query.severity);
@@ -115,6 +115,20 @@ router.get('/', async (req, res) => {
     res.json({ tickets, pagination });
   } catch (error) {
     console.error('Error fetching support tickets:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+router.get('/filter-options/', async (req, res) => {
+  try {
+    const options = {};
+    options.status = await SupportTicket.distinct('status');
+    options.assignedAgent = await SupportTicket.distinct('assignedAgent');
+    options.severity = await SupportTicket.distinct('severity');
+    options.type = await SupportTicket.distinct('type');
+    res.json(options);
+  } catch (error) {
+    console.error('Error fetching filter options:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
